@@ -1,9 +1,13 @@
 import bcrypt from "bcrypt";
-import { User } from "../models/user.model";
+import { User } from "../models/user.model.js";
+import {uploadOnCloudinary} from "../utils/cloudinary";
 
 const registerUser = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, password, role } = req.body;
+    if(!req.file){
+      res.status(404).json({success:false,message:"file not provided"})
+    }
     if (
       [fullName, email, phoneNumber, password].forEach(
         (item) => item.trim() == "",
@@ -13,6 +17,7 @@ const registerUser = async (req, res) => {
         .status(400)
         .json({ success: false, message: "all field is required" });
     }
+    const res=await uploadOnCloudinary(req.file.path)
     const findUser = await User.find({ email });
     if (findUser) {
       res.status(409).json({ success: false, message: "User is already exit" });
@@ -89,7 +94,12 @@ const changePassword = async (req, res) => {
       res.status(401).json({ success: false, message: "Invalid credential" });
     }
     user.password = newPassword;
-    const savedUse = await User.save();
+    const savedUser = await User.save();
+    res.status(200).json({
+      success: true,
+      mesage: "Passwor updated successfully",
+      data: savedUser,
+    });
   } catch (error) {
     console.log(error);
     throw new Error(error.message);
@@ -98,6 +108,28 @@ const changePassword = async (req, res) => {
 
 const updateProfile = async (req, res) => {
   try {
+    const { name, email, number, bio, skill } = req.body;
+    if (!req.file) {
+      res.status(404).json({ success: false, message: "no image is provided" });
+    }
+    const res = uploadOnCloudinary(req.file.path);
+    const user = await User.create({
+      fullname: name,
+      email,
+      phoneNumber: number,
+      profile: {
+        bio,
+        skill,
+        resume: res?.secure_url,
+      },
+    });
+    res
+      .status(201)
+      .json({
+        success: true,
+        message: "profile update successfully",
+        data: user,
+      });
   } catch (error) {
     console.log(error);
     throw new Error(error.message);

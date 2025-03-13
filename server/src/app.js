@@ -2,6 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors"
 import connectDB from "./db/index.js";
+import userRouter from "./routes/user.route.js";
+import jobsRouter from "./routes/jobs.route.js";
+import companyRouter from "./routes/company.route.js";
 
 dotenv.config({
   path: "./.env",
@@ -16,6 +19,9 @@ app.use(cors({
   credentials:true
 }))
 
+app.use("/api/v1/user",userRouter)
+app.use("/api/v1/jobs",jobsRouter)
+app.use("/api/v1/company",companyRouter)
 
 app.use("*",(err,rreq,res,next)=>{
   console.log(err.stack),
@@ -26,7 +32,7 @@ connectDB()
   .then(() => {
     const port = process.env.PORT || 4000;
     app.listen(port, () => {
-      console.log("server running on port;", port);
+      console.log("server running on port:", port);
     });
   })
   .catch((err) => {

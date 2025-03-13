@@ -1,7 +1,8 @@
 import {Router} from "express";
 
-const jobRouter=Router()
+const jobsRouter=Router()
 
+jobsRouter.post("/")
+jobsRouter.post("/")
 
-
-export default jobRouter
+export default jobsRouter

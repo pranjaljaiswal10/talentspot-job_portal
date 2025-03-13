@@ -1,10 +1,13 @@
 import {Router} from "express"
-import { loginUser, registerUser } from "../controllers/user.controller"
+import { changePassword, loginUser, registerUser, updateProfile } from "../controllers/user.controller"
+import { upload } from "../middleware/multer.middleware"
 
 const userRouter=Router()
 
-userRouter.post("/register",registerUser)
+userRouter.post("/register",upload.single()  ,registerUser)
 userRouter.post("/login",loginUser)
-userRouter.post("")
+userRouter.post("/user/password",changePassword)
+userRouter.post("/profle/update",updateProfile)
+
 
 export default userRouter;
