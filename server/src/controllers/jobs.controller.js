@@ -13,20 +13,18 @@ const postNewJobs = async (req, res) => {
     } = req.body;
     if (
       [title, salary, location, jobType, expierenceLevel, position].forEach(
-        (item) => item.trim == ""
+        (item) => item.trim == "",
       )
     ) {
-      res
-        .status(400)
-        .json({
-          succes: false,
-          message: "all field is required except description",
-        });
+      res.status(400).json({
+        succes: false,
+        message: "all field is required except description",
+      });
     }
     const newJobs = new Job({
       title,
       description,
-      salary:Number(salary),
+      salary: Number(salary),
       location,
       jobType,
       expierenceLevel,
@@ -42,10 +40,30 @@ const postNewJobs = async (req, res) => {
   }
 };
 
-const getAllJobs = async (req, res) => {
+const getAdminJobs = async (req, res) => {
   try {
-    const job = await Job.find({});
-    res.status(200).json({ success: true, data: job });
+    const userId=req.user._id;
+    const job=await Job.findById(userId)
+    if(!job){
+      res.status(404).json({success:false,message:"No job exist with this userId"})
+    }
+    res.status(200).json({success:true,data:job})
+  } catch (error) {
+    console.log(error);
+    throw new Error(error.message);
+  }
+};
+
+const getStudentJobs = async (req, res) => {
+  try {
+    const { keyword } = req.query;
+
+    const job = await Job.find({
+      $or: [
+        { title: { $regex: keyword, $option: "i" } },
+        { description: { $regex: keyword, $option: "i" } },
+      ],
+    });
   } catch (error) {
     console.log(error);
     throw new Error(error.message);
@@ -68,4 +86,4 @@ const getJobsbyId = async (req, res) => {
   }
 };
 
-export { postNewJobs, getAllJobs, getJobsbyId };
+export { postNewJobs, getStudentJobs, getAdminJobs, getJobsbyId };

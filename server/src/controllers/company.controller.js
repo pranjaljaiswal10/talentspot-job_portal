@@ -56,15 +56,20 @@ const getCompanyById = async (req, res) => {
 
 const updateCompany = async (req, res) => {
   try {
+    const {id}=req.params
     const {companyName,description,website,location}=req.body;
-    const 
+    const company=await Company.findById(id)
     //todo:get publicid from secure_url
+
     const publicId=""
     if(req.file){
       const deleteFile=await deleteFromCloudinary(publicId)
       console.log(deleteFile)
       const res=await uploadOnCloudinary(req.file.path)
     }
+  const updatedData={co}
+    const updatedComapny=await Company.findByIdAndUpdate(id,{$set:updatedData},{new:true})
+   res.status(200).json({success:true,message:"Company updated successfully",data:updateCompany})
     
   } catch (error) {
     console.log(error);
