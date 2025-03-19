@@ -67,7 +67,7 @@ const updateCompany = async (req, res) => {
       console.log(deleteFile)
       const res=await uploadOnCloudinary(req.file.path)
     }
-  const updatedData={co}
+  const updatedData={companyName,description,location,website}
     const updatedComapny=await Company.findByIdAndUpdate(id,{$set:updatedData},{new:true})
    res.status(200).json({success:true,message:"Company updated successfully",data:updateCompany})
     

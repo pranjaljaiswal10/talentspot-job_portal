@@ -98,6 +98,9 @@ const Signup = () => {
             </div>
           </RadioGroup>
         </div>
+        <div>
+        <Input type="file" placeholder=""/>
+        </div>
       </form>
     </div>
   );

@@ -10,7 +10,7 @@ const applicationSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",
     },
-    user: {
+    applicant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },

@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import { BASE_URL } from "@/utils/constant";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const useGetAllJobs = () => {
-   const [jobList,setJobList]=useState(null)
-   useEffect(()=>{
+  const dispatch = useDispatch();
+  useEffect(() => {
     async function getAllJobs() {
-        try {
-          const response=await fetch()  
-        } catch (error) {
-            console.log(error)
-        }
-    }    
-   },[])
-}
+      try {
+        const response = await fetch(`${BASE_URL}/jobs`, {
+          credentials: "include",
+        });
+        const json = await response.json();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getAllJobs();
+  }, []);
+};
 
-export default useGetAllJobs
+export default useGetAllJobs;

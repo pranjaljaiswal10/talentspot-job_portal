@@ -14,6 +14,10 @@ const jobSchema = new mongoose.model(
       type: String,
       enum: ["FullTime", "Internship"],
     },
+    postion: {
+      type: Number,
+      required: true,
+    },
     location: {
       type: String,
       required: true,

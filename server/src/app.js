@@ -23,7 +23,7 @@ app.use("/api/v1/user",userRouter)
 app.use("/api/v1/jobs",jobsRouter)
 app.use("/api/v1/company",companyRouter)
 
-app.use("*",(err,rreq,res,next)=>{
+app.use("*",(err,req,res,next)=>{
   console.log(err.stack),
   res.status(500).json("Something wen;t wrong")
 })

@@ -1,5 +1,6 @@
 import { jobs } from "@/utils/constant";
 import React from "react";
+import LatestJobsCard from "./LatestJobsCard";
 
 const LatestJobs = () => {
   return (
@@ -9,19 +10,7 @@ const LatestJobs = () => {
       </h3>
       {jobs.map((job) => (
         <div>
-          <ul>
-            <li>{job.company}</li>
-            <li>{job.location}</li>
-            <li>{job.position}</li>
-            <li>{job.description}</li>
-            <li>
-              <ul>
-                <li>{job.details.positions}</li>
-                <li>{job.details.type}</li>
-                <li>{job.details.salary}</li>
-              </ul>
-            </li>
-          </ul>
+         <LatestJobsCard {...job}/>
         </div>
       ))}
     </>

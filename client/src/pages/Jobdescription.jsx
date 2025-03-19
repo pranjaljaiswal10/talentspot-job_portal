@@ -1,22 +1,25 @@
 import { BASE_URL } from "@/utils/constant"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 
 
 const Jobdescription = () => {
   const {id}=useParams()
-  const [desciption,setDescription]=useState()
+  const dispatch=useDispatch()
+  const {singleJob}=useSelector((store)=>store.job)
   useEffect(()=>{
    async function getDescription() {
-     const response=await fetch(`${BASE_URL}`,{method:"post"})
+     const response=await fetch(`${BASE_URL}/job/${id}`,{method:"post"})
      const json=await response.json()
-     setDescription(json.data)
+     dispatch(json.data)
    }
    getDescription()
-  },[])
+  },[id])
   return (
    <>
-
+   <h1>{singleJob.title}</h1>
+   
    </>
   )
 }
