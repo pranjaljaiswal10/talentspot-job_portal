@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model";
 
-const authVerify = async (req, res, next) => {
+const authVerify = async (req, res, next,role=[]) => {
   try {
     const token =
       req.cookies.token || req.get("Authorization").replace("Bearer", "");
@@ -14,6 +14,7 @@ const authVerify = async (req, res, next) => {
       res.status(401).json({ success: false, message: "Invalid access token" });
     }
     req.user = user;
+    if(role.includes(req.user.role))
     next();
   } catch (error) {
     console.log(error);

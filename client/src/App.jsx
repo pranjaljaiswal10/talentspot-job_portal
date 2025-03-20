@@ -12,7 +12,6 @@ import Companies from "./pages/Companies";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CreateCompanies from "./pages/CreateCompanies";
 import AdminJobs from "./pages/AdminJobs";
-import CreateAdminJobs from "./pages/CreateAdminJobs";
 
 const appRouter = createBrowserRouter([
   {

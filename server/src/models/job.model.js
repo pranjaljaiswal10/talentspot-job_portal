@@ -10,6 +10,7 @@ const jobSchema = new mongoose.model(
       type: String,
       required: true,
     },
+    requirements: [String],
     jobType: {
       type: String,
       enum: ["FullTime", "Internship"],

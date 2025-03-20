@@ -1,6 +1,7 @@
 import React from 'react'
 
-const JobCard = () => {
+const JobCard = ({job}) => {
+  const {}=job
   return (
    <div>
     

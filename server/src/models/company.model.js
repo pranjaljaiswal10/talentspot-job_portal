@@ -20,7 +20,7 @@ const companySchema = new mongoose.model({
     type: String,
     default: "",
   },
-  userId: {
+  applicant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },

@@ -5,6 +5,7 @@ import connectDB from "./db/index.js";
 import userRouter from "./routes/user.route.js";
 import jobsRouter from "./routes/jobs.route.js";
 import companyRouter from "./routes/company.route.js";
+import applicantionRouter from "./routes/application.route.js";
 
 dotenv.config({
   path: "./.env",
@@ -22,6 +23,8 @@ app.use(cors({
 app.use("/api/v1/user",userRouter)
 app.use("/api/v1/jobs",jobsRouter)
 app.use("/api/v1/company",companyRouter)
+app.use("/api/v1/application",applicantionRouter)
+
 
 app.use("*",(err,req,res,next)=>{
   console.log(err.stack),

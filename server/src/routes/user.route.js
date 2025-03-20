@@ -5,7 +5,7 @@ import authVerify from "../middleware/auth.middleware"
 
 const userRouter=Router()
 
-userRouter.post("/register",,registerUser)
+userRouter.post("/register",registerUser)
 userRouter.post("/login",loginUser)
 userRouter.post("/user/password",changePassword)
 userRouter.post("/profle/update",authVerify,updateProfile)

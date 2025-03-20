@@ -3,7 +3,7 @@ import { getCompany, getCompanyById, registerCompany, updateCompany } from "../c
 
 const companyRouter=Router()
 
-companyRouter.post("/",registerCompany)
+companyRouter.post("/",authVerify,registerCompany)
 companyRouter.get("/",getCompany)
 companyRouter.put("/:id",updateCompany)
 companyRouter.get("/:id",getCompanyById)

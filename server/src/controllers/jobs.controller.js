@@ -5,11 +5,14 @@ const postNewJobs = async (req, res) => {
     const {
       title,
       description,
+      requirements,
       salary,
       location,
       jobType,
-      expierenceLevel,
+      expierence,
       position,
+      companyId,
+
     } = req.body;
     if (
       [title, salary, location, jobType, expierenceLevel, position].forEach(
@@ -24,11 +27,14 @@ const postNewJobs = async (req, res) => {
     const newJobs = new Job({
       title,
       description,
+      requirements:requirements.split(","),
       salary: Number(salary),
       location,
       jobType,
-      expierenceLevel,
+      expierenceLevel:expierence,
       position,
+      company:companyId,
+       cretatedBy:req.user._id
     });
     const savedJobs = await newJobs.save();
     res

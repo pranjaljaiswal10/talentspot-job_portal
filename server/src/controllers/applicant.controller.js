@@ -1,9 +1,10 @@
 import { Application } from "../models/application.model";
 import { Job } from "../models/job.model";
 
+//desciption
 const applyJob = async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user._id;
     const jobId = req.params.id;
     const existingApplication = await Application.find({
       applicant: userId,
@@ -33,20 +34,32 @@ const applyJob = async (req, res) => {
   }
 };
 
-//forstudent
+//profile
 const getAppliedJob = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const applicant = await Application.find({ applicant: userId })
-      .populate("Company companyName")
-      .populate("Job title")
-      .sort({ createdAt: -1 });
+    const userId = req.user._id;
+    const applicant = await Application.find({ userId }).populate({
+      path: "Job",
+      options: {
+        sort: {
+          createdAt: -1,
+        },
+      },
+      poulate: {
+        path: "Company",
+        options: {
+          sort: {
+            createdAt: -1,
+          },
+        },
+      },
+    });
     if (!applicant) {
       res
         .status(404)
         .json({ success: false, message: "User not applied any job" });
     }
-    res.status(200).json({success:true,data:applicant})
+    res.status(200).json({ success: true, data: applicant });
   } catch (error) {
     console.log(error);
     throw new Error(error.message);
@@ -56,19 +69,38 @@ const getAppliedJob = async (req, res) => {
 //foradmin
 const getApplicant = async (req, res) => {
   try {
-    const jobId = req.params.id;
-    const findApplicant = await Application.find({ jobId })
-      .populate({ path: "User", select: "fullname email phoneNumber profile" })
-      .sort({ createdAt: -1 });
-    if (!findApplicant) {
-      res(404).json({ success: false, message: "No applicant for this job" });
+    const jobId = req.query.id;
+    const job = await Job.find({ job: jobId }).populate({
+      path: "Application",
+      options: {
+        sort: {
+          createdAt: -1,
+        },
+      },
+      populate: {
+        path: "applicant",
+        options: {
+          sort: {
+            createdAt: -1,
+          },
+        },
+      },
+    });
+    if (!job) {
+      res.status(400).json({
+        success: false,
+        message: "No applicant for this job",
+        data: job,
+      });
     }
+    res.status(200).json({ success: true, data: job });
   } catch (error) {
     console.log(error);
     throw new Error(error.message);
   }
 };
 
+//
 const updateStatus = async (req, res) => {
   try {
     const { applied } = req.query;
