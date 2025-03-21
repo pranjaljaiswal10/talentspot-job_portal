@@ -1,5 +1,5 @@
-import { Company } from "../models/company.model";
-import  {uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary";
+import { Company } from "../models/company.model.js";
+import  {uploadOnCloudinary, deleteFromCloudinary } from "../utils/cloudinary.js";
 
 const registerCompany = async (req, res) => {
   try {

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup } from "@/components/ui/radio-group";
 import { BASE_URL } from "@/utils/constant";
+import { toast } from "sonner";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -33,9 +34,11 @@ const Signup = () => {
         body: formData,
       });
       const json=await res.json()
-      console.log(json)  //todo:add toast
+      console.log(json) 
+      toast(json?.message) 
     } catch (error) {
       console.log(error.message);
+      toast(error?.message)
     }
   }
   return (
@@ -99,7 +102,7 @@ const Signup = () => {
           </RadioGroup>
         </div>
         <div>
-        <Input type="file" placeholder=""/>
+        <Input type="file" name="profilPic" onChange={(e)=>handleChange(e)}/>
         </div>
       </form>
     </div>

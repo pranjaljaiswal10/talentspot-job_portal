@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { User } from "../models/user.model.js";
-import {uploadOnCloudinary} from "../utils/cloudinary";
+import {uploadOnCloudinary} from "../utils/cloudinary.js";
 
 const registerUser = async (req, res) => {
   try {

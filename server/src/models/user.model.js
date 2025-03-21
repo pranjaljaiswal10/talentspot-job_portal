@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["candidate", "recruiter"],
       default: "candidate",
-      required:true
+      required: true,
     },
     password: {
       type: String,
@@ -36,16 +36,17 @@ const userSchema = new mongoose.Schema(
       bio: String,
       skill: String,
       resume: String,
-      resumeOrigninalName: String,
       company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Company",
-      }
-    },
-      profilePhoto: {
-        type: String,
       },
     },
+    profilePic: {
+      type: String,
+      default:
+        "https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small_2x/user-profile-icon-free-vector.jpg",
+    },
+  },
   { timestamps: true },
 );
 

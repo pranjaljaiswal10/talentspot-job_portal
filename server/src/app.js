@@ -20,7 +20,7 @@ app.use(cors({
   credentials:true
 }))
 
-app.use("/api/v1/user",userRouter)
+app.use("/api/v1/users",userRouter)
 app.use("/api/v1/jobs",jobsRouter)
 app.use("/api/v1/company",companyRouter)
 app.use("/api/v1/application",applicantionRouter)

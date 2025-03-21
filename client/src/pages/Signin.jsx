@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { BASE_URL } from "@/utils/constant";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -15,13 +16,19 @@ const Signin = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   }
   async function handleSubmit(e) {
-    e.preventDefault();
-    const response = await fetch(`${BASE_URL}/users/login`, {
-      method: "post",
-      body: formData,
-    });
-    const json=await response.json()
-    console.log(json) //todo:add toast
+    try {
+      e.preventDefault();
+      const response = await fetch(`${BASE_URL}/users/login`, {
+        method: "post",
+        body: formData,
+      });
+      const json = await response.json();
+      console.log(json);
+      toast(json?.message);
+    } catch (error) {
+      console.log(error);
+      toast(error?.message);
+    }
   }
   return (
     <div>

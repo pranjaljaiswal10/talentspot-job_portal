@@ -1,13 +1,13 @@
 import {Router} from "express"
-import { changePassword, loginUser, registerUser, updateProfile } from "../controllers/user.controller"
-import { upload } from "../middleware/multer.middleware"
-import authVerify from "../middleware/auth.middleware"
+import { changePassword, loginUser, registerUser, updateProfile } from "../controllers/user.controller.js"
+import { upload } from "../middleware/multer.middleware.js"
+import authVerify from "../middleware/auth.middleware.js"
 
 const userRouter=Router()
 
-userRouter.post("/register",registerUser)
+userRouter.post("/register",upload.single('profilePic'),registerUser)
 userRouter.post("/login",loginUser)
-userRouter.post("/user/password",changePassword)
+userRouter.post("/user/password",authVerify,changePassword)
 userRouter.post("/profle/update",authVerify,updateProfile)
 
 

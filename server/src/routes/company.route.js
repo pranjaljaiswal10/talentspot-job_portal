@@ -1,12 +1,13 @@
 import {Router} from "express";
-import { getCompany, getCompanyById, registerCompany, updateCompany } from "../controllers/company.controller";
+import { getCompany, getCompanyById, registerCompany, updateCompany } from "../controllers/company.controller.js";
+import authVerify from "../middleware/auth.middleware.js";
 
 const companyRouter=Router()
 
-companyRouter.post("/",authVerify,registerCompany)
+companyRouter.post("/add",authVerify,registerCompany)
 companyRouter.get("/",getCompany)
-companyRouter.put("/:id",updateCompany)
-companyRouter.get("/:id",getCompanyById)
+companyRouter.put("/:id",authVerify,updateCompany)
+companyRouter.get("/:id",authVerify,getCompanyById)
 
 
 export default companyRouter

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import authVerify from "../middleware/auth.middleware";
-import { applyJob, getApplicant, getAppliedJob, updateStatus } from "../controllers/applicant.controller";
+import authVerify from "../middleware/auth.middleware.js";
+import { applyJob, getApplicant, getAppliedJob, updateStatus } from "../controllers/applicant.controller.js";
 
 const applicantionRouter=Router()
 
