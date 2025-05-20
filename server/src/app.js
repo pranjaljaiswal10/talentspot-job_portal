@@ -22,7 +22,7 @@ app.use(cors({
 
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/jobs",jobsRouter)
-app.use("/api/v1/company",companyRouter)
+app.use("/api/v1/companies ",companyRouter)
 app.use("/api/v1/application",applicantionRouter)
 
 

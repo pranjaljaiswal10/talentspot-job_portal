@@ -4,7 +4,7 @@ import authVerify from "../middleware/auth.middleware.js";
 
 const companyRouter=Router()
 
-companyRouter.post("/add",authVerify,registerCompany)
+companyRouter.post("/new",authVerify,registerCompany)
 companyRouter.get("/",getCompany)
 companyRouter.put("/:id",authVerify,updateCompany)
 companyRouter.get("/:id",authVerify,getCompanyById)

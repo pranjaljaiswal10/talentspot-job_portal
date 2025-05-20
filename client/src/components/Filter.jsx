@@ -1,24 +1,34 @@
+import { fitlerData } from "@/utils/constant";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group"
-
+import { useState } from "react";
 
 const Filter = () => {
+  const [value, setValue] = useState("");
+  
   return (
     <>
       <h1>Filter Jobs</h1>
       <h2>Location</h2>
-      <RadioGroup defaultValue="option-one">
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="option-one" id="option-one" />
-          <Label htmlFor="option-one">Option One</Label>
+      {fitlerData.map((item) => (
+        <div key={item.fitlerType}>
+          <h2>{item.fitlerType}</h2>
+          <div>
+            {item.array.map((data) => (
+              <div key={data}>
+                <RadioGroup value={value} onValueChange={setValue}>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem className="text-gray-800" value={data} id={data} />
+                    <Label htmlFor={data}>{data}</Label>
+                  </div>
+                </RadioGroup>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex items-center space-x-2">
-          <RadioGroupItem value="option-two" id="option-two" />
-          <Label htmlFor="option-two">Option Two</Label>
-        </div>
-      </RadioGroup>
+      ))}
     </>
   );
-}
+};
 
-export default Filter
+export default Filter;

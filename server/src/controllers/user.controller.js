@@ -5,24 +5,24 @@ import {uploadOnCloudinary} from "../utils/cloudinary.js";
 const registerUser = async (req, res) => {
   try {
     const { fullName, email, phoneNumber, password, role } = req.body;
-    if(!req.file){
-      res.status(404).json({success:false,message:"file not provided"})
-    }
+    // if(!req.file){
+    //   res.status(404).json({success:false,message:"file not provided"})
+    // }
     if (
-      [fullName, email, phoneNumber, password].forEach(
-        (item) => item.trim() == "",
+      [fullName, email, phoneNumber, password].some(
+        (item) => item?.trim() === ""
       )
     ) {
       res
         .status(400)
         .json({ success: false, message: "all field is required" });
     }
-    const res=await uploadOnCloudinary(req.file.path)
+    // const res=await uploadOnCloudinary(req.file.path)
     const findUser = await User.find({ email });
     if (findUser) {
       res.status(409).json({ success: false, message: "User is already exit" });
     }
-    const hashPassword = await bcrypt.hash(password, 10);
+    const hashPassword = await bcrypt.hash(password,10)
     const user = await User.create({
       fullname: fullName,
       email,

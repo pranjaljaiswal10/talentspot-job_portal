@@ -18,7 +18,7 @@ const authVerify = async (req, res, next,role=[]) => {
     next();
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    
   }
 };
 

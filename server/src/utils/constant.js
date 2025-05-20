@@ -1,4 +1,4 @@
-export const userRoleEnums={
-      ADMIN:"recruiter",
-    CANDINDATE:"candidate"
-}
+export const userRoleEnums = {
+  ADMIN: "ADMIN",
+  CANDINDATE: "CANDIDATE",
+};
