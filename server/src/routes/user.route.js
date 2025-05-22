@@ -9,7 +9,7 @@ userRouter.post("/register",upload.single('profilePic'),registerUser)
 userRouter.post("/login",loginUser)
 userRouter.post("/password",authVerify,changePassword)
 userRouter.post("/profle",authVerify,updateProfile)
-userRouter.get("/logout",authVerify,logoutUser)
+userRouter.post("/logout",authVerify,logoutUser)
 
 
 export default userRouter;

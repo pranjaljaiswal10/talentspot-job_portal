@@ -1,12 +1,14 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
+
+//todo:add role restriction
 const authVerify = async (req, res, next,role=[]) => {
   try {
     const token =
-      req.cookies.token || req.get("Authorization").replace("Bearer", "");
+      req.cookies.token || req.get("Authorization")?.replace("Bearer", "");
     if (!token) {
-      req.status(401).json({ success: false, message: "Unauthorized access" });
+      res.status(401).json({ success: false, message: "Unauthorized access" });
     }
     const decode = jwt.verify(token, process.env.TOKEN_SECRET);
     const user = await User.findById(decode.userId);
@@ -18,7 +20,7 @@ const authVerify = async (req, res, next,role=[]) => {
     next();
   } catch (error) {
     console.log(error);
-    
+    res
   }
 };
 

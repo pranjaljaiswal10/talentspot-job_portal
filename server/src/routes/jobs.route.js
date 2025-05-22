@@ -4,7 +4,7 @@ import authVerify from "../middleware/auth.middleware.js";
 
 const jobsRouter=Router()
 
-jobsRouter.post("/new",authVerify,postNewJobs)
+jobsRouter.post("/",authVerify,postNewJobs)
 jobsRouter.get("/admin",authVerify,getAdminJobs)
 jobsRouter.get("/",authVerify,getStudentJobs)
 jobsRouter.get("/:id",getJobsbyId)

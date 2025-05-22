@@ -34,8 +34,9 @@ const userSchema = new mongoose.Schema(
     },
     profile: {
       bio: String,
-      skill: String,
+      skills: [String],
       resume: String,
+      resumeTitle:String,
       company: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Company",

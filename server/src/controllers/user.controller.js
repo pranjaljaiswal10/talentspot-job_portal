@@ -1,35 +1,38 @@
 import bcrypt from "bcrypt";
 import { User } from "../models/user.model.js";
-import {uploadOnCloudinary} from "../utils/cloudinary.js";
+import { uploadOnCloudinary } from "../utils/cloudinary.js";
 
 const registerUser = async (req, res) => {
   try {
-    const { fullName, email, phoneNumber, password, role } = req.body;
-    // if(!req.file){
-    //   res.status(404).json({success:false,message:"file not provided"})
-    // }
+    const { fullname, email, phoneNumber, password, role } = req.body;
+    if (!req.file) {
+      res.status(404).json({ success: false, message: "file not provided" });
+    }
     if (
-      [fullName, email, phoneNumber, password].some(
-        (item) => item?.trim() === ""
+      [fullname, email, phoneNumber, password].some(
+        (item) => item?.trim() === "",
       )
     ) {
       res
         .status(400)
         .json({ success: false, message: "all field is required" });
     }
-    // const res=await uploadOnCloudinary(req.file.path)
-    const findUser = await User.find({ email });
+    const result = await uploadOnCloudinary(req.file.path);
+    console.log(result);
+    const findUser = await User.findOne({ email });
     if (findUser) {
-      res.status(409).json({ success: false, message: "User is already exit" });
+      res.status(409).json({ success: false, error: "User is already exit" });
     }
-    const hashPassword = await bcrypt.hash(password,10)
+    const hashPassword = await bcrypt.hash(password, 10);
     const user = await User.create({
-      fullname: fullName,
+      fullname,
       email,
       phoneNumber,
       password: hashPassword,
       role,
+      profilePic: result?.secure_url,
     });
+
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -37,27 +40,27 @@ const registerUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
 const loginUser = async (req, res) => {
   try {
     const { email, password, role } = req.body;
-    const user = await User.findOne({ email });
-    if (!findUser) {
+    const user = await User.findOne({ email }).select("-password -profile");
+    if (!user) {
       res
         .status(404)
-        .json({ success: false, message: "User is doesn't exist" });
+        .json({ success: false, error: "User is doesn't exist" });
     }
-    const isPasswordCorrect = User.validatePassword(password);
+    const isPasswordCorrect = user.validatePassword(password);
     if (!isPasswordCorrect) {
-      res.status(401).json({ success: false, message: "Inavlid credential" });
+      res.status(401).json({ success: false, error: "Inavlid credential" });
     }
-    if (!user.role === role) {
+    if (!(user.role === role)) {
       res
         .status(400)
-        .json({ success: false, message: "user does't exist for this role" });
+        .json({ success: false, message: "user does'nt exist with this role" });
     }
     const token = await user.getJWT();
     const option = {
@@ -72,14 +75,19 @@ const loginUser = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
   }
 };
 
 const logoutUser = async (req, res) => {
-  res
-    .clearCookie("token", { maxAge: 0 })
-    .json({ success: true, messsage: "Logout succesfully" });
+  try {
+    res
+      .clearCookie("token", { maxAge: 0 })
+      status(200)
+      .json({ success: true, messsage: "Logout succesfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: error.mesage });
+  }
 };
 
 const changePassword = async (req, res) => {
@@ -87,7 +95,7 @@ const changePassword = async (req, res) => {
     const { email, currentPassword, newPassword } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(404).json({ success: false, message: "User doesn't exist" });
+      res.status(404).json({ success: false, error: "User doesn't exist" });
     }
     const isValid = await User.validatePassword(currentPassword);
     if (!isValid) {
@@ -97,42 +105,43 @@ const changePassword = async (req, res) => {
     const savedUser = await User.save();
     res.status(200).json({
       success: true,
-      mesage: "Passwor updated successfully",
+      mesage: "Password updated successfully",
       data: savedUser,
     });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
   }
 };
 
 const updateProfile = async (req, res) => {
   try {
-    const { name, email, number, bio, skill } = req.body;
-    if (!req.file) {
-      res.status(404).json({ success: false, message: "no image is provided" });
+    const { name, email, phoneNumber, bio, skills } = req.body;
+    const userId = req.user._id;
+    const file = req.file;
+    if (req.file) {
+      result = uploadOnCloudinary(req.file.path);
     }
-    const res = uploadOnCloudinary(req.file.path);
-    const user = await User.create({
-      fullname: name,
-      email,
-      phoneNumber: number,
-      profile: {
-        bio,
-        skill,
-        resume: res?.secure_url,
-      },
+    const user = await User.findById(userId);
+    if (name || email || phoneNumber || bio || skills) {
+      user.fullname = name;
+      user.email = email;
+      user.phoneNumber = phoneNumber;
+      (user.profile.bio = bio), (user.profile.skills = skills.split(","));
+    }
+    if (result) {
+      user.profile.resume = result.secure_url;
+      user.profile.resumeTitle = file.originalName;
+    }
+    const updatedUser = await user.save();
+
+    res.status(201).json({
+      success: true,
+      message: "profile update successfully",
+      data: user,
     });
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "profile update successfully",
-        data: user,
-      });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 

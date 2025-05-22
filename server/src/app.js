@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors"
+import cookieParser from "cookie-parser"
 import connectDB from "./db/index.js";
 import userRouter from "./routes/user.route.js";
 import jobsRouter from "./routes/jobs.route.js";
@@ -13,6 +14,7 @@ dotenv.config({
 
 const app = express();
 
+app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
@@ -22,13 +24,13 @@ app.use(cors({
 
 app.use("/api/v1/users",userRouter)
 app.use("/api/v1/jobs",jobsRouter)
-app.use("/api/v1/companies ",companyRouter)
+app.use("/api/v1/companies",companyRouter)
 app.use("/api/v1/application",applicantionRouter)
 
 
 app.use("*",(err,req,res,next)=>{
   console.log(err.stack),
-  res.status(500).json("Something wen;t wrong")
+  res.status(500).json("Something went wrong")
 })
 
 connectDB()
