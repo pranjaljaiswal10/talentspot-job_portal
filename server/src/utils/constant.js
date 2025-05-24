@@ -1,4 +1,4 @@
 export const userRoleEnums = {
-  ADMIN: "ADMIN",
-  CANDINDATE: "CANDIDATE",
+  ADMIN: "recruiter",
+  CANDINDATE: "candidate",
 };

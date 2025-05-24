@@ -30,7 +30,8 @@ const registerCompany = async (req, res) => {
 const getCompany = async (req, res) => {
   try {
     const userId = req.user._id;
-    const company = await Company.findById(userId);
+    console.log(userId)
+    const company = await Company.find({recruiter:userId})
     if (!company) {
       res
         .status(400)
@@ -58,18 +59,19 @@ const updateCompany = async (req, res) => {
   try {
     const { id } = req.params;
     const { companyName, description, website, location } = req.body;
-    const company = await Company.findById(id);
-    if (req.file) {
+    const logoLocalPath=req.file?.path;
+    let result
+    if (!logoLocalPath) {
+      result = await uploadOnCloudinary(logoLocalPath);
     }
-    const result = await uploadOnCloudinary(req.file.path);
     const updatedData = {
       companyName,
       description,
       location,
       website,
-      logo: result.secure_url,
+      logo: result?.secure_url,
     };
-    const updatedComapny = await Company.findByIdAndUpdate(
+    const updatedCompany = await Company.findByIdAndUpdate(
       id,
       { $set: updatedData },
       { new: true },
@@ -79,7 +81,7 @@ const updateCompany = async (req, res) => {
       .json({
         success: true,
         message: "Company updated successfully",
-        data: updateCompany,
+        data: updatedCompany,
       });
   } catch (error) {
     console.log(error);

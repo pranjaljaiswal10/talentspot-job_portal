@@ -8,18 +8,17 @@ const companySchema = new mongoose.Schema(
     },
     decription: {
       type: String,
-      required: true,
+      
     },
     website: {
       type: String,
     },
     location: {
       type: String,
-      required: true,
+      
     },
     logo: {
       type: String,
-      default: "",
     },
     recruiter: {
       type: mongoose.Schema.Types.ObjectId,

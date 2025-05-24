@@ -17,6 +17,14 @@ const registerUser = async (req, res) => {
         .status(400)
         .json({ success: false, message: "all field is required" });
     }
+    if (phoneNumber.length !== 10) {
+      res
+        .status(400)
+        .json({
+          succcess: false,
+          message: "phone number must be 10 digit character",
+        });
+    }
     const result = await uploadOnCloudinary(req.file.path);
     console.log(result);
     const findUser = await User.findOne({ email });
@@ -49,9 +57,7 @@ const loginUser = async (req, res) => {
     const { email, password, role } = req.body;
     const user = await User.findOne({ email }).select("-password -profile");
     if (!user) {
-      res
-        .status(404)
-        .json({ success: false, error: "User is doesn't exist" });
+      res.status(404).json({ success: false, error: "User is doesn't exist" });
     }
     const isPasswordCorrect = user.validatePassword(password);
     if (!isPasswordCorrect) {
@@ -82,7 +88,7 @@ const logoutUser = async (req, res) => {
   try {
     res
       .clearCookie("token", { maxAge: 0 })
-      status(200)
+      .status(200)
       .json({ success: true, messsage: "Logout succesfully" });
   } catch (error) {
     console.log(error);

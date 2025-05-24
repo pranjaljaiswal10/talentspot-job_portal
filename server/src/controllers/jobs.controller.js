@@ -12,12 +12,17 @@ const postNewJobs = async (req, res) => {
       expierence,
       position,
       companyId,
-
     } = req.body;
     if (
-      [title, salary, location, jobType, expierenceLevel, position].forEach(
-        (item) => item.trim == "",
-      )
+      [
+        title,
+        salary,
+        location,
+        jobType,
+        expierence,
+        position,
+        companyId,
+      ].forEach((item) => item.trim == "")
     ) {
       res.status(400).json({
         succes: false,
@@ -27,14 +32,14 @@ const postNewJobs = async (req, res) => {
     const newJobs = new Job({
       title,
       description,
-      requirements:requirements.split(","),
+      requirements: requirements.split(","),
       salary: Number(salary),
       location,
       jobType,
-      expierenceLevel:expierence,
+      expierenceLevel: expierence,
       position,
-      company:companyId,
-       cretatedBy:req.user._id
+      company: companyId,
+      created_By: req.user._id,
     });
     const savedJobs = await newJobs.save();
     res
@@ -42,53 +47,65 @@ const postNewJobs = async (req, res) => {
       .json({ success: true, message: "new job is created", data: savedJobs });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
 const getAdminJobs = async (req, res) => {
   try {
-    const userId=req.user._id;
-    const job=await Job.findById(userId)
-    if(!job){
-      res.status(404).json({success:false,message:"No job exist with this userId"})
+    const recruiterId = req.user._id;
+    const job = await Job.find({ created_By: recruiterId })
+      .populate("companyId")
+      .sort({ createdAt: -1 });
+    if (!job) {
+      res
+        .status(404)
+        .json({ success: false, message: "No job exist with this userId" });
     }
-    res.status(200).json({success:true,data:job})
+    res.status(200).json({ success: true, data: job });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ succcess: false, error: error.message });
   }
 };
 
 const getStudentJobs = async (req, res) => {
   try {
     const { keyword } = req.query;
-
-    const job = await Job.find({
+    const query = {
       $or: [
-        { title: { $regex: keyword, $option: "i" } },
-        { description: { $regex: keyword, $option: "i" } },
+        { title: { $regex: `${keyword}`, $options: "i" } },
+        { description: { $regex: `${keyword}`, $options: "i" } },
       ],
-    });
+    };
+    const job = await Job.find(query)
+      .populate("company")
+      .sort({ createdAt: -1 });
+    if (!job) {
+      res
+        .status(404)
+        .json({ success: false, message: "Jobs not found with this keyword" });
+    }
+    res.status(200).json({ success: true, data: job });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
 const getJobsbyId = async (req, res) => {
   try {
     const { id } = req.params;
-    const job = await Job.findById(id);
+    const job = await Job.findById(id).populate("applicant");
     if (!job) {
       res
         .status(404)
-        .json({ success: false, message: "jobs not found with this id" });
+        .json({ success: false, message: "Jobs not found with this id" });
     }
     res.status(200).json({ success: true, data: job });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 

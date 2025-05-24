@@ -1,9 +1,8 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
-
 //todo:add role restriction
-const authVerify = async (req, res, next,role=[]) => {
+const authVerify = async (req, res, next) => {
   try {
     const token =
       req.cookies.token || req.get("Authorization")?.replace("Bearer", "");
@@ -16,12 +15,28 @@ const authVerify = async (req, res, next,role=[]) => {
       res.status(401).json({ success: false, message: "Invalid access token" });
     }
     req.user = user;
-    if(role.includes(req.user.role))
     next();
   } catch (error) {
     console.log(error);
-    res
+    res.status(500).json({ success: true, error: error.message });
   }
 };
 
-export default authVerify;
+const verifyPermission = (role) => async (req, res, next) => {
+  try {
+    if (!req?.user?.id) {
+      res.status(401).json({ sucess: false, message: "Unathorized access" });
+    }
+    if (req.user.role === role) {
+      res.status(403).json({
+        success: false,
+        message: "You are not allowed to perform this action",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+export { authVerify, verifyPermission };

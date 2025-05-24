@@ -30,7 +30,7 @@ const applyJob = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
@@ -62,7 +62,7 @@ const getAppliedJob = async (req, res) => {
     res.status(200).json({ success: true, data: applicant });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -96,7 +96,7 @@ const getApplicant = async (req, res) => {
     res.status(200).json({ success: true, data: job });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
@@ -117,7 +117,7 @@ const updateStatus = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    throw new Error(error.message);
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 
