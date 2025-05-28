@@ -70,22 +70,9 @@ const getAppliedJob = async (req, res) => {
 const getApplicant = async (req, res) => {
   try {
     const jobId = req.query.id;
-    const job = await Job.find({ job: jobId }).populate({
-      path: "Application",
-      options: {
-        sort: {
-          createdAt: -1,
-        },
-      },
-      populate: {
-        path: "applicant",
-        options: {
-          sort: {
-            createdAt: -1,
-          },
-        },
-      },
-    });
+    const job = await Job.find({ job: jobId })
+      .populate("applicant")
+      .sort({ createdAt: -1 });
     if (!job) {
       res.status(400).json({
         success: false,
@@ -103,11 +90,11 @@ const getApplicant = async (req, res) => {
 //
 const updateStatus = async (req, res) => {
   try {
-    const { applied } = req.query;
+    const { status } = req.body;
     const { id } = req.params;
     const application = await Application.findByIdAndUpdate(
       id,
-      { $set: { status: !applied } },
+      { $set: { status: status.toLowerCase() } },
       { new: true },
     );
     res.status(200).json({

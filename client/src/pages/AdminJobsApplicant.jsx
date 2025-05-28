@@ -1,48 +1,33 @@
-import { useSelector } from "react-redux";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import ApplicantTable from "@/components/ApplicantTable";
+import { setApplicant } from "@/redux/appliantSlice";
+import { BASE_URL } from "@/utils/constant";
+import { useQuery } from "@tanstack/react-query";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
 
 
 
 const AdminJobsApplicant = () => {
-  const { allApplicant } = useSelector((store) => store.applicant);
+  const {id}=useParams()
+  const dispatch=useDispatch()
+  const {allApplicant}=useSelector((store)=>store.application)
+  const {data}=useQuery({
+    queryKey:["applicant"],
+    queryFn:async ()=>{
+      const response=await fetch(`${BASE_URL}/${id}`,{
+       credentials:"include"
+      })
+      return response.json()
+    }
+  })
+  dispatch(setApplicant(data))
   return (
-    <div>
-      <h1>{`Applicants${allApplicant.length}`}</h1>
-      <Table>
-        <TableCaption>A list of your recent applied user</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead >Full Name</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Contact</TableHead>
-            <TableHead>Resume</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead className="text-right">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-        {
-          allApplicant.map((item)=>(
-            <TableRow key={item._id}>
-            <TableCell></TableCell> 
-            <TableCell></TableCell> 
-            <TableCell></TableCell> 
-            <TableCell></TableCell> 
-            <TableCell></TableCell> 
-            </TableRow>
-          ))
-        }
-        </TableBody>
-      </Table>
-    </div>
+   <div>
+    <h1 className="">Applicants {allApplicant?.data.length}</h1>
+    <ApplicantTable/>
+   </div>
+    
   );
 };
 

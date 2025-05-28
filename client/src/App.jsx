@@ -47,54 +47,58 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          // <ProtectedRoute>
+          <Profile />
+        ),
+        // </ProtectedRoute>
       },
       {
         path: "/admin/companies",
         element: (
-          <ProtectedRoute>
-            <Companies />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <Companies />
+          // </ProtectedRoute>
         ),
       },
       {
         path: "/admin/companies/create",
         element: (
-          <ProtectedRoute>
-            <CreateCompanies />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <CreateCompanies />
+          // </ProtectedRoute>
         ),
       },
       {
         path: "/admin/companies/:id",
         element: (
-          <ProtectedRoute>
-            <CompanySetup />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <CompanySetup />
+          // </ProtectedRoute>
         ),
       },
       {
         path: "/admin/jobs",
         element: (
-          <ProtectedRoute>
-            <AdminJobs />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <AdminJobs />
+          // </ProtectedRoute>
         ),
       },
       {
         path: "/admin/jobs/create",
         element: (
-          <ProtectedRoute>
-            <Createjobs />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <Createjobs />
+          // </ProtectedRoute>
         ),
       },
       {
         path: "/admin/jobs:id/applicant",
         element: (
-          <ProtectedRoute>
-            <AdminJobsApplicant />
-          </ProtectedRoute>
+          // <ProtectedRoute>
+          <AdminJobsApplicant />
+          // </ProtectedRoute>
         ),
       },
     ],

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import {  useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -11,30 +11,32 @@ import { setLoading } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
 
 const Signup = () => {
-  const dispatch=useDispatch()
-  const {loading}=useSelector((store)=>store.auth)
-  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const { loading } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     phoneNumber: "",
     password: "",
+    profilePic: "",
   });
-  const imageUploadRef=useRef()
   function handleChange(e) {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   }
+  function handleFileChange(e) {
+    setFormData({ ...formData, [e.target.id]: e.target.file[0] });
+  }
   async function handleSubmit(e) {
     e.preventDefault();
-    const file = e.target.files[0];
-    if (!file) return;
+    if (!formData.profilePic) return;
     const form = new FormData();
     form.append("fullName", formData.fullName);
     form.append("email", formData.email);
     form.append("phoneNumber", formData.phoneNumber);
-    form.append("file", file);
+    form.append("file", formData.profilePic);
     try {
-    dispatch(setLoading(true))
+      dispatch(setLoading(true));
       const res = await fetch(`${BASE_URL}/user/register`, {
         method: "POST",
         headers: {
@@ -49,12 +51,11 @@ const Signup = () => {
         navigate("/login");
         toast.success(res.message);
       }
-      
     } catch (error) {
       console.log(error.message);
       toast(error?.message);
-    }finally{
-      dispatch(setLoading(false))
+    } finally {
+      dispatch(setLoading(false));
     }
   }
   return (
@@ -120,8 +121,8 @@ const Signup = () => {
             <div className="w-fit">
               <Input
                 type="file"
-                name="profilPic"
-                onChange={(e) => handleChange(e)}
+                id="profilePic"
+                onChange={(e) => handleFileChange(e)}
               />
             </div>
           </div>

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "./ui/badge";
 
-const AppliedJobs = () => {
+const AppliedJobsTable = () => {
   const { allAppliedJobs } = useSelector((store) => store.job);
   return (
     <div>
@@ -39,4 +39,4 @@ const AppliedJobs = () => {
   );
 };
 
-export default AppliedJobs;
+export default AppliedJobsTable;

@@ -27,12 +27,13 @@ const verifyPermission = (role) => async (req, res, next) => {
     if (!req?.user?.id) {
       res.status(401).json({ sucess: false, message: "Unathorized access" });
     }
-    if (req.user.role === role) {
+    if (req.user.role !== role) {
       res.status(403).json({
         success: false,
         message: "You are not allowed to perform this action",
       });
     }
+    next()
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, error: error.message });

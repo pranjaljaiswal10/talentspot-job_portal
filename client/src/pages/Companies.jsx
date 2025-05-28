@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 
 const Companies = () => {
-  const {allCompanies}=useSelector((store)=>store.companie)
+  const {allCompanies}=useSelector((store)=>store.company)
   return (
     <div>
       <Table>

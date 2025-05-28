@@ -35,10 +35,10 @@ const jobSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",
     },
-    applicant: {
+    applicant: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Application",
-    },
+    }],
     created_By: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

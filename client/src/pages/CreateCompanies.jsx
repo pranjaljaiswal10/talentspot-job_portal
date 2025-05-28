@@ -4,9 +4,12 @@ import { Label } from "@/components/ui/label";
 import { setSingleCompany } from "@/redux/companySlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const CreateCompanies = () => {
+  
   const dispatch = useDispatch();
+  const navigate=useNavigate()
   const [companyName, setCompanyName] = useState("");
   const handleChange = (e) => {
     setCompanyName(e.target.value);
@@ -14,10 +17,17 @@ const CreateCompanies = () => {
   const handleClick = () => {
     dispatch(setSingleCompany(companyName));
   };
+  async function registerNewCompany(){
+   try {
+    
+   } catch (error) {
+    console.log(error)
+   }
+  }
   return (
     <div>
-      <h1>Your Company Name</h1>
-      <p>
+      <h1 className="font-bold text-2xl">Your Company Name</h1>
+      <p className="text-gray-500">
         What would you like to give your company name?you can change this later
       </p>
       <div>
@@ -29,8 +39,10 @@ const CreateCompanies = () => {
           placeholder="Company Name"
         />
       </div>
-      <Button>Cancel</Button>
-      <Button onClick={handleClick}>Continue</Button>
+      <div className="flex items-center gap-2 my-10">
+      <Button variant="outline" onClick={()=>navigate("/admin/companies")}>Cancel</Button>
+      <Button onClick={}>Continue</Button>
+      </div>
     </div>
   );
 };
