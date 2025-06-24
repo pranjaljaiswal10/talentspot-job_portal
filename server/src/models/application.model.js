@@ -6,10 +6,6 @@ const applicationSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Job",
     },
-    company: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Company",
-    },
     applicant: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

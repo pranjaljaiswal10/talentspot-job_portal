@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { BASE_URL } from "@/utils/constant";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
@@ -136,7 +143,9 @@ const Createjobs = () => {
             />
           </div>
         </div>
-        //todo:select input
+        <Select>
+
+        </Select>
         {isLoading ? (
           <Button className="w-full my-4">
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -14,9 +14,6 @@ import {
 const AdminJobsTable = () => {
     const {allAdminJobs}=useSelector(store=>store.job)
     const navigate=useNavigate()
-    useEffect(()=>{
-    const filteredJobs=
-    },[])
   return (
     <div>
       <Table>

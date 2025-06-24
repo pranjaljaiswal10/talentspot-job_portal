@@ -5,22 +5,20 @@ const postNewJobs = async (req, res) => {
     const {
       title,
       description,
-      requirements,
       salary,
       location,
-      jobType,
+      category,
       expierence,
-      position,
       companyId,
     } = req.body;
     if (
       [
         title,
+        description,
         salary,
         location,
-        jobType,
+        category,
         expierence,
-        position,
         companyId,
       ].forEach((item) => item.trim == "")
     ) {
@@ -32,12 +30,10 @@ const postNewJobs = async (req, res) => {
     const newJobs = new Job({
       title,
       description,
-      requirements: requirements.split(","),
       salary: Number(salary),
       location,
-      jobType,
-      expierenceLevel: expierence,
-      position,
+      category,
+      expierence,
       company: companyId,
       created_By: req.user._id,
     });

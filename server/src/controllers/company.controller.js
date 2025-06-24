@@ -1,7 +1,6 @@
 import { Company } from "../models/company.model.js";
 import {
   uploadOnCloudinary,
-  deleteFromCloudinary,
 } from "../utils/cloudinary.js";
 
 const registerCompany = async (req, res) => {
@@ -61,16 +60,17 @@ const updateCompany = async (req, res) => {
     const { companyName, description, website, location } = req.body;
     const logoLocalPath=req.file?.path;
     let result
-    if (!logoLocalPath) {
-      result = await uploadOnCloudinary(logoLocalPath);
+    if(logoLocalPath){
+     result=await uploadOnCloudinary(logoLocalPath)
     }
     const updatedData = {
       companyName,
       description,
       location,
       website,
-      logo: result?.secure_url,
     };
+    if(result) updatedData.logo=result?.secure_url
+
     const updatedCompany = await Company.findByIdAndUpdate(
       id,
       { $set: updatedData },
@@ -85,7 +85,7 @@ const updateCompany = async (req, res) => {
       });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: false, error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 };
 

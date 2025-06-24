@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
-//todo:add role restriction
 const authVerify = async (req, res, next) => {
   try {
     const token =
@@ -24,7 +23,7 @@ const authVerify = async (req, res, next) => {
 
 const verifyPermission = (role) => async (req, res, next) => {
   try {
-    if (!req?.user?.id) {
+    if (!req?.user?._id) {
       res.status(401).json({ sucess: false, message: "Unathorized access" });
     }
     if (req.user.role !== role) {

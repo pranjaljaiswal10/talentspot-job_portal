@@ -10,35 +10,34 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    requirements: [String],
-    jobType: {
-      type: String,
-      enum: ["FullTime", "Internship"],
-    },
-    position: {
-      type: Number,
-      required: true,
-    },
     location: {
       type: String,
+      enum: ["Delhi", "Mumbai", "Bangalore", "Hyderabad", "Pune", "Remote"],
       required: true,
     },
     salary: {
       type: Number,
       required: true,
     },
-    expierenceLevel: {
-      type: Number,
+    expierence: {
+      type: String,
+      enums: ["Junior", "Mid", "Senior", "Intern"],
+      required: true,
+    },
+    category: {
+      type: String,
       required: true,
     },
     company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Company",
     },
-    applicant: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Application",
-    }],
+    applications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Application",
+      },
+    ],
     created_By: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

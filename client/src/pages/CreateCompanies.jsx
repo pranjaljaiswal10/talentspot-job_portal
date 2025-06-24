@@ -1,29 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { setSingleCompany } from "@/redux/companySlice";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const CreateCompanies = () => {
-  
-  const dispatch = useDispatch();
+  const dispatch=useDispatch()
   const navigate=useNavigate()
   const [companyName, setCompanyName] = useState("");
   const handleChange = (e) => {
     setCompanyName(e.target.value);
   };
-  const handleClick = () => {
-    dispatch(setSingleCompany(companyName));
-  };
-  async function registerNewCompany(){
-   try {
-    
-   } catch (error) {
-    console.log(error)
-   }
-  }
+  
+ 
   return (
     <div>
       <h1 className="font-bold text-2xl">Your Company Name</h1>
@@ -41,7 +31,7 @@ const CreateCompanies = () => {
       </div>
       <div className="flex items-center gap-2 my-10">
       <Button variant="outline" onClick={()=>navigate("/admin/companies")}>Cancel</Button>
-      <Button onClick={}>Continue</Button>
+      <Button>Continue</Button>
       </div>
     </div>
   );

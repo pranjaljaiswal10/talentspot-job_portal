@@ -74,6 +74,7 @@ const Signup = () => {
               id="fullName"
               value={formData.fullName}
               onChange={(e) => handleChange(e)}
+              className="border-gray-400"
               placeholder="Full Name"
             />
           </div>
@@ -84,6 +85,7 @@ const Signup = () => {
               id="email"
               value={formData.email}
               onChange={(e) => handleChange(e)}
+              className="border-gray-400"
               placeholder="Email"
             />
           </div>
@@ -94,6 +96,7 @@ const Signup = () => {
               id="phoneNumber"
               value={formData.phoneNumber}
               onChange={(e) => handleChange(e)}
+              className="border-gray-400"
               placeholder="Phone Number"
             />
           </div>
@@ -104,17 +107,26 @@ const Signup = () => {
               id="password"
               value={formData.password}
               onChange={(e) => handleChange(e)}
+              className="border-gray-400"
               placeholder="Password"
             />
           </div>
           <div className="flex justify-between items-center">
             <RadioGroup defaultValue="" className="flex">
               <div className="flex  space-x-2">
-                <RadioGroupItem value="student" id="student" />
+                <RadioGroupItem
+                  value="student"
+                  id="student"
+                  className=" border-gray-400 cursor-pointer"
+                />
                 <Label htmlFor="student">Student</Label>
               </div>
               <div className="flex  space-x-2">
-                <RadioGroupItem value="recruiter" id="recruiter" />
+                <RadioGroupItem
+                  value="recruiter"
+                  id="recruiter"
+                  className=" border-gray-400 cursor-pointer"
+                />
                 <Label htmlFor="student">Recruiter</Label>
               </div>
             </RadioGroup>
@@ -132,7 +144,7 @@ const Signup = () => {
               <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please wait{" "}
             </Button>
           ) : (
-            <Button type="submit">SignUp</Button>
+            <Button type="submit" className="cursor-pointer">SignUp</Button>
           )}
         </form>
         <p>

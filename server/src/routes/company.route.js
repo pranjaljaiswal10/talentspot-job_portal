@@ -21,7 +21,7 @@ companyRouter.get("/", authVerify, getCompany);
 companyRouter.put(
   "/:id",
   authVerify,
-  upload.single("file"),
+  upload.single("logo"),
   verifyPermission(userRoleEnums.ADMIN),
   updateCompany,
 );

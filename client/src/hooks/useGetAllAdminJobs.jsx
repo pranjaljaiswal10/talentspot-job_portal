@@ -1,3 +1,4 @@
+import { setAdminJobs } from "@/redux/jobsSlice"
 import { BASE_URL } from "@/utils/constant"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
@@ -10,6 +11,7 @@ const useGetAllAdminJobs = () => {
       try {
         const response=await fetch(`${BASE_URL}`)
         const json=await response.json()
+        dispatch(setAdminJobs(json))
       } catch (error) {
         console.log(error)
       }

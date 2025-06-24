@@ -11,15 +11,7 @@ import {
 import { toast } from "sonner";
 
 const ApplicantTable = () => {
-  const { allApplicant } = useSelector((store) => store.applicant);
-  const handleStatus=async (status,id) => {
-    try {
-      const 
-
-    } catch (error) {
-      toast.error(error.message)
-    }
-  }
+  const { allApplicant } = useSelector((store) => store.applicant)
   return (
     <div>
     <h1>{`Applicants${allApplicant.length}`}</h1>
@@ -42,8 +34,8 @@ const ApplicantTable = () => {
           <TableCell>{item.fullname}</TableCell> 
           <TableCell>{item?.email}</TableCell> 
           <TableCell>{item?.phoneNumber}</TableCell> 
-          <TableCell>{item?.profile.resume ? <a href={} className="text-blue-600 cursor-pointer"></a>:}</TableCell> 
-          <TableCell>{}</TableCell> 
+      
+          <TableCell></TableCell> 
           </TableRow>
         ))
       }

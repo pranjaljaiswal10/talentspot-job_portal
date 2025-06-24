@@ -18,15 +18,12 @@ const registerUser = async (req, res) => {
         .json({ success: false, message: "all field is required" });
     }
     if (phoneNumber.length !== 10) {
-      res
-        .status(400)
-        .json({
-          succcess: false,
-          message: "phone number must be 10 digit character",
-        });
+      res.status(400).json({
+        succcess: false,
+        message: "phone number must be 10 digit character",
+      });
     }
     const result = await uploadOnCloudinary(req.file.path);
-    console.log(result);
     const findUser = await User.findOne({ email });
     if (findUser) {
       res.status(409).json({ success: false, error: "User is already exit" });
@@ -123,17 +120,17 @@ const updateProfile = async (req, res) => {
   try {
     const { name, email, phoneNumber, bio, skills } = req.body;
     const userId = req.user._id;
-    const file = req.file;
-    if (req.file) {
-      result = uploadOnCloudinary(req.file.path);
+    const file = req.file?.path;
+    let result;
+    if (file) {
+      result = uploadOnCloudinary(file);
     }
     const user = await User.findById(userId);
-    if (name || email || phoneNumber || bio || skills) {
-      user.fullname = name;
-      user.email = email;
-      user.phoneNumber = phoneNumber;
-      (user.profile.bio = bio), (user.profile.skills = skills.split(","));
-    }
+    if (name) user.fullname = name;
+    if (email) user.email = email;
+    if (phoneNumber) user.phoneNumber = phoneNumber;
+    if (bio) user.profile.bio = bio;
+    if (skills) user.profile.skills = skills.split(",");
     if (result) {
       user.profile.resume = result.secure_url;
       user.profile.resumeTitle = file.originalName;
@@ -143,7 +140,7 @@ const updateProfile = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "profile update successfully",
-      data: user,
+      data: updatedUser,
     });
   } catch (error) {
     console.log(error);

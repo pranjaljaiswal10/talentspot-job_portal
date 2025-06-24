@@ -1,10 +1,11 @@
-import React from 'react'
+
 
 const BrowseJobs = () => {
-  return (
-  <>
   
-  </>
+  return (
+   <div>
+       
+   </div>
   )
 }
 
